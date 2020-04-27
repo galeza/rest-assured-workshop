@@ -36,8 +36,8 @@ public class RestAssuredExercises1Test {
 
 		given().
 			spec(requestSpec).
-			when().
-			then();
+			when().get("/us/90210").
+			then().assertThat().statusCode(200);
 	}
 
 	/*******************************************************
@@ -50,8 +50,8 @@ public class RestAssuredExercises1Test {
 
 		given().
 			spec(requestSpec).
-			when().
-			then();
+			when().get("/us/99999").
+			then().assertThat().statusCode(404);
 	}
 
 	/*******************************************************
@@ -64,8 +64,8 @@ public class RestAssuredExercises1Test {
 
 		given().
 			spec(requestSpec).
-			when().
-			then();
+			when().get("/us/90210").
+			then().assertThat().contentType(ContentType.JSON);
 	}
 
 	/***********************************************
@@ -79,8 +79,8 @@ public class RestAssuredExercises1Test {
 
 		given().
 			spec(requestSpec).
-			when().
-			then();
+			when().get("/us/90210").
+			then().assertThat().body("places[0].state",equalTo("California"));
 	}
 
 	/***********************************************
@@ -94,8 +94,8 @@ public class RestAssuredExercises1Test {
 
 		given().
 			spec(requestSpec).
-			when().
-			then();
+			when().get("/de/24848").
+			then().assertThat().body("places.'place name'", hasItem("Kropp"));
 	}
 
 	/***********************************************
@@ -109,8 +109,8 @@ public class RestAssuredExercises1Test {
 
 		given().
 			spec(requestSpec).
-			when().
-			then();
+			when().get("/de/24848").
+			then().body("places.'place name'", not(hasItem("Frankfurt")));
 	}
 
 	/***********************************************
@@ -124,7 +124,7 @@ public class RestAssuredExercises1Test {
 
 		given().
 			spec(requestSpec).
-			when().
-			then();
+			when().get("/de/24848").
+			then().body("places.'place name'", hasSize(4));
 	}
 }

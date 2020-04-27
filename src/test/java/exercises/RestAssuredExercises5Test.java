@@ -37,12 +37,18 @@ public class RestAssuredExercises5Test {
 	public void postCarObject_checkResponseHttpStatusCode_expect200() {
 
 		// Create an instance of the Car object first using
+		Car myCar = new Car("Ford", "Focus", 2012);
 
 
 		given().
 			spec(requestSpec).
+		and().
+			body(myCar).
 		when().
-		then();
+				post("/car/postcar").
+		then().
+				assertThat().
+				statusCode(200);
 	}
 
 	/*******************************************************
@@ -57,13 +63,13 @@ public class RestAssuredExercises5Test {
 	public void getCarObject_checkModelYear_expect2016() {
 
 		// Deserialize the response to a car object first
-		// Use Car myCar = given(). ...
+		Car myCar =
 
 		given().
 			spec(requestSpec).
-			when();
+			when().get("/car/getcar/alfaromeogiulia").as(Car.class);
 
 		// Then, write a JUnit assertion to verify the modelYear
-		// using Assert.assertEquals(<expected>, <actual>)
+		Assert.assertEquals(2016, myCar.getModelYear());
 	}
 }

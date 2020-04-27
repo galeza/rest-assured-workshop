@@ -36,7 +36,14 @@ public class RestAssuredExercises2Test {
 	 * ca           - Y1A      - Yukon
 	 ******************************************************/
 
-
+	@DataProvider
+	public static Object[][] zipCodeData(){
+		return new Object[][]{
+				{"us","90210","California"},
+				{"us","12345","New York"},
+				{"ca","Y1A","Yukon"}
+		};
+	}
 
 	/*******************************************************
 	 * Request zip code data for given country / zip
@@ -46,12 +53,14 @@ public class RestAssuredExercises2Test {
 	 * matches the expected value. The
 	 ******************************************************/
 
-	@Test
-	public void checkStateForCountryCodeAndZipCode() {
+	@Test@UseDataProvider("zipCodeData")
+	public void checkStateForCountryCodeAndZipCode(String countryCode, String zipCode, String expectedState) {
 
 		given().
-			spec(requestSpec).
-		when().
-		then();
+			spec(requestSpec).and().
+				pathParam("countryCode", countryCode).
+				pathParam("zipCode", zipCode).
+		when().get("/{countryCode}/{zipCode}").
+		then().assertThat().body("places[0].state", equalTo(expectedState));
 	}
 }
